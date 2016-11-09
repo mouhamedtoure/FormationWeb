@@ -1,6 +1,9 @@
 package fr.demos.formation.web;
 
+
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,6 +22,8 @@ public class SaisieInscription extends HttpServlet {
 	String CHAMP_NOM = "nom";
 	String CHAMP_PRENOM = "prenom";
 	String CHAMP_AGE = "age";
+	String ERR = "erreurs";
+	String RES = "resultat";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -39,39 +44,121 @@ public class SaisieInscription extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-		
-		String action = request.getParameter("valider");
-		if (action != null && action.equals("Valider"))
-		{
-			String nom = request.getParameter("nom");
-			String prenom = request.getParameter("prenom");
-			String stringAge = request.getParameter("age");
-			int reference = 0;
-		try {
-			
-			reference = Integer.parseInt(stringAge);
-		} catch (NumberFormatException ex){
-		// gestion erreur conversion
-		}
-		if (nom == null || nom.equals("")) {
-		
-			
-			
-			
-		}
-		}
-	// si erreurs
-	// en ajoutant transfert des messages d'erreur
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-	RequestDispatcher rd = request.getRequestDispatcher("/SaisieInscription.jsp");
-	rd.forward(request,response);
-	return;
-	// sinon appel de la vue suivante
-}
+		String resultat;
+		Map<String,String> erreurs = new HashMap<String,String>();
+
+		// TODO Auto-generated method stub
+		String action = request.getParameter("valider");
+
+		if (action != null && action.equals("Valider")) {
+
+			String nom = request.getParameter(CHAMP_NOM);
+			String prenom = request.getParameter(CHAMP_PRENOM);
+			String age = request.getParameter(CHAMP_AGE);
+
+			try {
+				validationNom(nom);
+			} catch (Exception e) {
+
+				String er1 = e.getMessage();
+				erreurs.put(CHAMP_NOM,er1);
+
+			}
+
+			try {
+				validationPrenom(prenom);
+			} catch (Exception e) {
+
+				String er2 = e.getMessage();
+				erreurs.put(CHAMP_PRENOM,er2);
+
+			}
+
+			try {
+				validationAge(age);
+			} catch (Exception e) {
+
+				String er3 = e.getMessage();
+				erreurs.put(CHAMP_AGE,er3);
+
+			}
+
+		}
+
+		if (erreurs.isEmpty()) {
+
+			resultat = "OK: Succes de l'inscription";
+			request.setAttribute(ERR, erreurs);
+			request.setAttribute(RES, resultat);
+
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/OK.jsp");
+			rd.forward(request, response);
+			return;
+			
+			
+		} else {
+
+			resultat = "KO: Echec de l'inscription";
+			request.setAttribute(ERR, erreurs);
+			request.setAttribute(RES, resultat);
+
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/SaisieInscription.jsp");
+			rd.forward(request, response);
+			return;
+		}
+		
+	}
+
+	private void validationNom(String nom) throws Exception {
+
+		if (nom != null && nom.trim().length() < 1) {
+
+			throw new Exception("Le champ nom d'utilisateur doit contenir au moins 1 caractère.");
+
+		}
+	}
+
+	private void validationPrenom(String prenom) throws Exception {
+
+		if (prenom != null && prenom.trim().length() < 1) {
+
+			throw new Exception("Le champ prénom d'utilisateur doit contenir au moins 1 caractère.");
+
+		}
+	}
+
+	private void validationAge(String age) throws Exception {
+			
+			if (age != null && age.trim().length() < 1) {
+
+			throw new Exception("Le champ âge doit contenir au moins 1 caractère.");
+
+		}
+		
+		
+			int monAge=0;
+			try{
+				monAge=Integer.parseInt(age);
+				
+			}catch(NumberFormatException e){
+				throw new Exception("L'âge doit être un entier");
+			}
+			
+			
+			if (age != null && monAge < 0) {
+
+				throw new Exception("L'âge doit être positif");
+	
+		}
+		}
+		
 
 }
