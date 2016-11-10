@@ -9,11 +9,18 @@
 <body>
 
 <form>
+<p><strong>Récapitulatif des données entrées</strong></p>
+
+<label for="pays">Pays: </label>
+${pays} 
+
+<br/>
+
 <label for="nom">Nom: </label>
 ${param.nom} 
 
 <br/>
-<label for="nom">Prénom: </label>
+<label for="prenom">Prénom: </label>
 ${param.prenom}
 
 <br/>
