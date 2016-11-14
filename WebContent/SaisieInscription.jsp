@@ -10,7 +10,8 @@
 <body>
 
 
-
+	Nombre d'utilisateurs connectés: ${compteur.valeur}
+	<br/>
 	Votre heure de première connexion: ${heure}
 
 	<p>

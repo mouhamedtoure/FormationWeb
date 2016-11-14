@@ -44,19 +44,21 @@ public class SaisieInscription extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		HttpSession session = request.getSession();
-
-		LocalTime heure = (LocalTime) session.getAttribute("heure");
-
-		if (heure == null) {
-
-			LocalTime heureConnexion = LocalTime.now();
-			session.setAttribute("heure", heureConnexion);
-		}
-
-		else {
-			session.setAttribute("heure", heure);
-		}
+//		HttpSession session = request.getSession();
+//
+//		LocalTime heure = (LocalTime) session.getAttribute("heure");
+//
+//		if (heure == null) {
+//
+//			LocalTime heureConnexion = LocalTime.now();
+//			session.setAttribute("heure", heureConnexion);
+//		}
+//
+//		else {
+//			session.setAttribute("heure", heure);
+//		}
+		
+		
 		ArrayList<String> listePays = new ArrayList<>();
 		listePays.add("France");
 		listePays.add("Trumpland");
@@ -87,7 +89,7 @@ public class SaisieInscription extends HttpServlet {
 		if (action != null && action.equals("Deconnexion")) {
 
 			HttpSession session = request.getSession();
-
+			
 			session.invalidate();
 			RequestDispatcher rd = request.getRequestDispatcher("/logout.jsp");
 			rd.forward(request, response);
