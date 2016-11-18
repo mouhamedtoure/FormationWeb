@@ -1,7 +1,6 @@
 package fr.demos.formation.web;
 
 import java.io.IOException;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,21 +43,20 @@ public class SaisieInscription extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-//		HttpSession session = request.getSession();
-//
-//		LocalTime heure = (LocalTime) session.getAttribute("heure");
-//
-//		if (heure == null) {
-//
-//			LocalTime heureConnexion = LocalTime.now();
-//			session.setAttribute("heure", heureConnexion);
-//		}
-//
-//		else {
-//			session.setAttribute("heure", heure);
-//		}
-		
-		
+		// HttpSession session = request.getSession();
+		//
+		// LocalTime heure = (LocalTime) session.getAttribute("heure");
+		//
+		// if (heure == null) {
+		//
+		// LocalTime heureConnexion = LocalTime.now();
+		// session.setAttribute("heure", heureConnexion);
+		// }
+		//
+		// else {
+		// session.setAttribute("heure", heure);
+		// }
+
 		ArrayList<String> listePays = new ArrayList<>();
 		listePays.add("France");
 		listePays.add("Trumpland");
@@ -89,7 +87,7 @@ public class SaisieInscription extends HttpServlet {
 		if (action != null && action.equals("Deconnexion")) {
 
 			HttpSession session = request.getSession();
-			
+
 			session.invalidate();
 			RequestDispatcher rd = request.getRequestDispatcher("/logout.jsp");
 			rd.forward(request, response);
@@ -103,6 +101,7 @@ public class SaisieInscription extends HttpServlet {
 			String nom = request.getParameter(CHAMP_NOM);
 			String prenom = request.getParameter(CHAMP_PRENOM);
 			String age = request.getParameter(CHAMP_AGE);
+
 			String pays = request.getParameter(CHAMP_PAYS);
 			System.out.println(age);
 			System.out.println(pays);
@@ -138,7 +137,7 @@ public class SaisieInscription extends HttpServlet {
 				erreurs.put(CHAMP_AGE, er3);
 
 			}
-			
+
 			try {
 				validationPays(pays);
 			} catch (Exception e) {
@@ -191,10 +190,14 @@ public class SaisieInscription extends HttpServlet {
 
 		}
 	}
-	
+
 	private void validationPays(String pays) throws Exception {
 
-		// Traitement
+		if (pays != null && pays.trim().length() < 1) {
+
+			throw new Exception("Le champ pays doit contenir au moins 1 caractère.");
+
+		}
 	}
 
 	private void validationAge(String age) throws Exception {

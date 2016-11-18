@@ -12,7 +12,7 @@
 <p><strong>Récapitulatif des données entrées</strong></p>
 
 <label for="pays">Pays: </label>
-${pays} 
+${param.pays} 
 
 <br/>
 
